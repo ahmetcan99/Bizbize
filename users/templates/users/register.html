@@ -1,0 +1,27 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags%}
+{% block content %}
+<div class="row mt-3">
+    <div class="col-md-8">
+        <div class="card justify-content-center" style="background-color: #f7f5f5;">
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        <legend class="border-bottom mb-4">Bize katıl</legend>
+                        {{ form | crispy}}
+                        <!-- TODO ADD CAPTCHA -->
+                    </fieldset>
+                    <div class="form-group">
+                        <button class="mb-1 btn btn-outline-success type="submit">Kaydol</button>
+                    </div>
+                </form>
+                <div class="border-top pt-3 text-end">
+                    <small class="text-muted">
+                        Hesabın var mı? <a class="btn btn-sm btn-outline-info ms-2" href="{% url 'login' %}">Giriş yap</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

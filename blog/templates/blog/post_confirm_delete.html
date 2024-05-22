@@ -1,0 +1,23 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="card-title">Confirm Delete</h1>
+                        <p class="card-text">Are you sure you want to delete "{{ object.title }}"?</p>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="d-flex justify-content-between">
+                                <input class="btn btn-danger me-2" type="submit" value="Yes, Delete">
+                                <a class="btn btn-secondary mt-2" href="{% url 'postDetail' object.id %}">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

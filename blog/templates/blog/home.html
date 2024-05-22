@@ -1,0 +1,162 @@
+{% extends 'blog/base.html' %}
+{% load time_since %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="row mt-5">
+        {% if user.is_authenticated %}
+        <p>
+            <a class="btn btn-outline-secondary" data-bs-toggle="collapse" href="#NewPost" role="button" aria-expanded="false" aria-controls="NewPost">
+                    Paylaşım yap
+            </a>
+        </p>
+            <div class="collapse" id="NewPost">
+                <div class="row d-flex">
+                    <form id="postForm" action="/post/new/"  method="POST">
+                        {% csrf_token %}
+                        <div class="col-md-8 mb-2">
+                            <div class="card card-body">
+                                <textarea name="content" class="form-control" rows="3" placeholder="Bir şeyler yaz..."></textarea>
+                            </div>
+                            <div class="col text-end mb-2">
+                                <button type="submit" class="mx-2 mt-1 btn btn-outline-success btn-sm">Paylaş</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        {% for post in posts %}
+                <div class="col-md-8">
+                    <div class="card mb-4" style="background-color: #f7f5f5;">
+                        <div class="card-body">
+                            <div class="container ps-0">
+                                <div class="row">
+                                    <div class="col-8 text-start col-sm">
+                                        <a class="text-muted" style="font-size: larger; font-weight: bold;" href="#">{{ post.author.first_name }} {{ post.author.last_name }}</a>
+                                    </div>
+                                    <div class="col-4 text-end fs-6 col-sm">
+                                        <span class="text-muted text-end">{{ post.date_posted|time_since }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="card-text ps-3">{{ post.content }}</p>
+                            <!-- TODO Add likes here -->
+                            <hr class="dotted-line p-0 m-1">
+                            <div class="d-flex ">
+                                <button type="submit" class="btn btn-light mx-2" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .25rem; --bs-btn-font-size: 1rem;" >
+                                    <i class="bi bi-hand-thumbs-up"><span class="fst-normal fw-lighter"> Beğen</span></i>
+                                </button>
+                                <button type="button" class="btn btn-light mx-2" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .25rem; --bs-btn-font-size: 1rem;" data-bs-toggle="collapse" data-bs-target="#commentForm{{ post.id }}">
+                                    <i class="bi bi-chat-dots"><span class="fst-normal fw-lighter"> Yorum yap</span></i>
+                                </button>
+                            </div>
+                            <div class="collapse" id="commentForm{{ post.id }}">
+                                <form id="commentForm" action="/post/{{ post.id }}/comment/" method="POST">
+                                    {% csrf_token %}
+                                    <div class="col-md-8 mb-2">
+                                        <div class="card card-body">
+                                            <textarea name="content" class="form-control" rows="3" placeholder="Yorumunuzu buraya yazın..."></textarea>
+                                        </div>
+                                        <div class="col text-end mb-2">
+                                            <button type="submit" class="mx-2 mt-1 btn btn-outline-success btn-sm">Paylaş</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <hr class="dotted-line p-0 m-1">
+                            {% for comment in comments.all %}
+                            {% if comment.post.id == post.id %}
+                                <div class="row">
+                                    <div class="col-md-8 ps-5">
+                                        <div class="card mb-2" style="background-color: #ededed;">
+                                            <div class="comment card-body">
+                                                <div class="container ps-0">
+                                                    <div class="row">
+                                                        <div class="col-8 text-start col-sm">
+                                                            <a class="card-subtitle mb-2 text-muted" href="#">{{ comment.author.first_name }} {{ comment.author.last_name }}</a>
+                                                        </div>
+                                                        <div class="col-4 col-sm">
+                                                            <p class="card-text text-end"><small class="text-muted">{{ comment.date_posted|time_since }}</small></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <p class="card-text text-muted">{{ comment.content }}</p>
+                                                <!-- TODO Add comment likes here -->
+                                                <div class="d-flex ">
+                                                    <a class="link-offset link-underline link-underline-opacity-0" type="button" ><span class="mx-2 fst-normal text-muted fw-lighter">Beğen</span></a>
+                                                    <button type="button" class="btn btn-light mx-2" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .25rem; --bs-btn-font-size: 1rem;" data-bs-toggle="collapse" data-bs-target="#replyForm{{ comment.id }}">
+                                                        <i class="bi bi-chat-dots"><span class="fst-normal fw-lighter"> Yorum yap</span></i>
+                                                    </button>
+                                                    <a class="link-offset link-underline link-underline-opacity-0" type="button" data-bs-toggle="collapse" data-bs-target="#subcomments{{ comment.id }}">
+                                                        <span class="fst-normal ms-2 text-muted fw-lighter">Yorumları göster</span>
+                                                    </a> 
+                                                </div>
+                                                <div class="collapse" id="replyForm{{ comment.id }}">
+                                                    <form id="replyForm" action="/comment/{{ comment.id }}/reply/" method="POST">
+                                                        {% csrf_token %}
+                                                        <div class="col-md-8 mb-2">
+                                                            <div class="card card-body">
+                                                                <textarea name="content" class="form-control" rows="3" placeholder="Yorumunuzu buraya yazın..."></textarea>
+                                                            </div>
+                                                            <div class="col text-end mb-2">
+                                                                <button type="submit" class="mx-2 mt-1 btn btn-outline-success btn-sm">Paylaş</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col ps-3 pt-0 mt-0">
+                                                        <div class="collapse" id="subcomments{{ comment.id }}">
+                                                            <div class="card" style="background-color: #ededed;">
+                                                                <div class="card-body pt-0 mt-0">
+                                                                    <div class="container ps-0 ms-2">
+                                                                    {% for reply in replies.all %}
+                                                                    {% if reply.comment.id == comment.id %}
+                                                                        <div class="row">
+                                                                                <div class="col-8 text-start col-sm">
+                                                                                    <a class="card-subtitle mb-2 text-muted" href="#">{{ reply.author.first_name }} {{ reply.author.last_name }}</a>
+                                                                                </div>
+                                                                                <div class="col-4 col-sm">
+                                                                                    <p class="card-text text-end"><small class="text-muted">{{ reply.date_posted|time_since }}</small></p>
+                                                                                </div>
+                                                                            <p class="card-text text-muted">
+                                                                                {{ reply.content }}
+                                                                            </p>
+                                                                        </div>
+                                                                    {% endif %}
+                                                                    {% endfor %}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                    {% endfor %}
+
+        {% else %}
+        <div class="row mt-3">
+            <div class="col-md-8">
+                <div class="card justify-content-center" style="background-color: #f7f5f5;">
+                    <div class="card-body">
+                        <h3 class="h3">Bu sayfayı görebilmek için lütfen giriş yapınız</h3>
+                        <div class="border-top pt-3">
+                            <small class="text-muted">
+                            <a class="btn btn-outline-info ms-2" style="color: darkslategray;" href="{% url 'login' %}">Giriş yap </a>
+                            <a class="btn btn-outline-info ms-2" style="color: darkslategray;"  href="{% url 'register' %}">Kaydol</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+</div>
+{% endblock %}
+
