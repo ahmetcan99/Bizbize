@@ -1,0 +1,24 @@
+version: '3.10'
+
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DB: bizbize
+      POSTGRES_USER: postgrescan
+      POSTGRES_PASSWORD: 1234
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  web:
+    build: .
+    command: ["gunicorn", "Bizbize.wsgi:application", "--bind", "0.0.0.0:80"]
+    volumes:
+      - .:/Bizbize
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
