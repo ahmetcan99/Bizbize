@@ -7,13 +7,8 @@ A Twitter-like web application built using Django and Python. This project allow
 1. [Introduction](#introduction)
 2. [Features](#features)
 3. [Technologies Used](#technologies-used)
-4. [Installation](#installation)
-5. [Usage](#usage)
-6. [Configuration](#configuration)
-7. [Examples](#examples)
-8. [Troubleshooting](#troubleshooting)
-9. [Contributors](#contributors)
-10. [License](#license)
+4. [Contributors](#contributors)
+5. [License](#license)
 
 ---
 
