@@ -1,5 +1,3 @@
-# Twitter Clone Web Application
-
 A Twitter-like web application built using Django and Python. This project allows users to create accounts, post tweets, follow other users, and interact with posts through likes and comments.
 
 ---
@@ -39,21 +37,28 @@ This project is a simple Twitter-like web application created with Django and Py
 
 ## Technologies Used
 
-- **Backend**: Python 3.x, Django 4.x
-- **Frontend**: HTML, CSS, JavaScript (Optional: Bootstrap)
-- **Database**: SQLite (for development) or PostgreSQL/MySQL (for production)
-- **Other Tools**:
-  - Django REST Framework (Optional, for API support)
-  - Django Channels (Optional, for real-time features)
-  - Celery and Redis (Optional, for background tasks)
+- **Backend**: Python 3.8, Django4
+- **Frontend**: HTML, CSS
+- **Database**: SQLite
+
+---
+## Contributors
+
+- [Ahmet Can Erleblebici](https://github.com/ahmetcan99) - Project Creator and Maintainer
 
 ---
 
-## Installation
+## License
 
-Follow these steps to set up the project locally:
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/twitter-clone.git
-   cd twitter-clone
+
+---
+
+### Key Points to Customize:
+1. Replace placeholders like `https://github.com/yourusername/twitter-clone.git` with your actual repository link.
+2. Update the "Contributors" section with your name and GitHub profile link.
+3. Add screenshots or examples under the "Examples" section.
+4. Ensure the "Technologies Used" section reflects the actual tools and libraries in your project.
+
+Let me know if you'd like to refine this further!
